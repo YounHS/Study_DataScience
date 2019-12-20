@@ -1,3 +1,4 @@
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 ***시각화 부분은 이전 스터디 때 보았으므로 패스***
 ===
 # 탐색적 데이터 분석
