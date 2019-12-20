@@ -111,6 +111,5 @@
 			
 	- *평균* : 가장 기본적인 위치 추정방법
 
-	평균 \equiv \bar{x} \equiv \frac \sum^n_{i}x_i n
-		
+	평균 = <img src="https://github.com/YounHS/Study_DataScience/blob/master/1.%20%ED%83%90%EC%83%89%EC%A0%81%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EB%B6%84%EC%84%9D/pic/%ED%8F%89%EA%B7%A0.png" width="10%">
 	
