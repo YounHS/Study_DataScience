@@ -101,4 +101,5 @@
 		- *평균* : 가장 기본적인 위치 추정방법
 		
 		평균 \equiv \bar{x} \equiv \frac \sum^n_{i}x_i n
+		$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}$$
 	
