@@ -110,7 +110,9 @@
 	---
 			
 	- *평균* : 가장 기본적인 위치 추정방법<br><img src="https://github.com/YounHS/Study_DataScience/blob/master/1.%20%ED%83%90%EC%83%89%EC%A0%81%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EB%B6%84%EC%84%9D/pic/%ED%8F%89%EA%B7%A0.png" width="40%">
+	
 	- *절사평균* : 값들을 크기 순으로 정렬한 후, 양끝에서 일정 개수의 값들을 삭제한 뒤 남은 값들을 가지고 구한 평균<br><img src="https://github.com/YounHS/Study_DataScience/blob/master/1.%20%ED%83%90%EC%83%89%EC%A0%81%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EB%B6%84%EC%84%9D/pic/%EC%A0%88%EC%82%AC%ED%8F%89%EA%B7%A0.png" width="40%">
+	
 	- *가중평균* : 각 데이터 값 x_i에 가중치 w_i를 곱한 값들의 총합을 다시 가중치의 총합으로 나눈 평균<br><img src="https://github.com/YounHS/Study_DataScience/blob/master/1.%20%ED%83%90%EC%83%89%EC%A0%81%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EB%B6%84%EC%84%9D/pic/%EA%B0%80%EC%A4%91%ED%8F%89%EA%B7%A0.png" width="40%">
 	
 	---
