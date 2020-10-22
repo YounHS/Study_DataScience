@@ -1,11 +1,16 @@
 import pandas as pd
 import numpy as np
 import folium
+from folium.plugins import HeatMap
 from IPython.display import HTML, display
 import matplotlib.pyplot as plt
 import json
 
+import pydeck as pdk
+import geopandas as gpd
 
+
+# -------------------------------------------------------------------- folium
 def func(x):
     d = {'count': x['건수'].sum()}
     return pd.Series(d, index=['count'])
@@ -70,19 +75,41 @@ geo_str = json.load(open(seoul_geo_path, encoding='utf-8'))
 
 pivotData = pd.read_csv('../pivotDataFrame.csv')
 pivotData['구분'] = pivotData['구분'] + '구'
+pivotData['강간 검거율'] = pivotData['강간 검거'] / pivotData['강간 발생'] * 100
 mapA = folium.Map(location=[37.5502, 126.982],
                   zoom_start=12,
                   tiles='Stamen Toner')
-pivotData['구분'] = pivotData['구분'].astype(str)
-pivotData['강간 검거'] = pivotData['강간 검거'].astype(int)
 pivotData.set_index('구분')
 print(pivotData)
 print('----------------------------------------------')
 print(pivotData.index)
 folium.Choropleth(
-                    geo_data=geo_str,
-                    data=pivotData,
-                    columns=['구분', '강간 검거'],
-                    fill_color='PuRd',
-                    key_on='feature.id').add_to(mapA)
+    geo_data=geo_str,
+    data=pivotData,
+    columns=['구분', '강간 검거율'],
+    fill_color='PuRd',
+    key_on='feature.id').add_to(mapA)
+folium.Marker([37.662751, 127.042490], tooltip='도봉구').add_to(mapA)
+folium.Marker([37.639884, 127.012190], tooltip='강북구').add_to(mapA)
+folium.Marker([37.650661, 127.076642], tooltip='노원구').add_to(mapA)
+folium.Marker([37.601949, 127.020867], tooltip='성북구').add_to(mapA)
+folium.Marker([37.599489, 127.100127], tooltip='중랑구').add_to(mapA)
+folium.Marker([37.577270, 127.057688], tooltip='동대문구').add_to(mapA)
+folium.Marker([37.583764, 127.976527], tooltip='종로구').add_to(mapA)
+folium.Marker([37.593417, 127.923679], tooltip='은평구').add_to(mapA)
+folium.Marker([37.569272, 127.938852], tooltip='서대문구').add_to(mapA)
+folium.Marker([37.556764, 127.996630], tooltip='중구').add_to(mapA)
+folium.Marker([37.551760, 127.049067], tooltip='성동구').add_to(mapA)
 mapA.save('test2.html')
+
+# -------------------------------------------------------------------- pydeck
+
+# pdf = gpd.read_file(seoul_geo_path)
+# folium.LayerControl().add_to(mapA)
+# folium.Choropleth(
+#     geo_data=geo_str,
+#     data=pivotData,
+#     columns=['구분', '강간 발생'],
+#     fill_color='PuRd',
+#     key_on='feature.id').add_to(mapA)
+# mapA.save('test2.html')
