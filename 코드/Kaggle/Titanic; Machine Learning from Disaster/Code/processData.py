@@ -201,7 +201,7 @@ facet.map(sb.kdeplot, 'FamilySize', shade=True)
 facet.set(xlim=(0, train['FamilySize'].max()))
 facet.add_legend()
 
-# 혼자 탑슬했을 때 사망률이 높음
+# 혼자 탑승했을 때 사망률이 높음
 # plt.show()
 
 # 상기 가족 규모를 숫자로 매핑시킴. scaling 해주는데, 가족 규모의 범위를 조금이라도 좁히기 위해서라고 사료됨.
