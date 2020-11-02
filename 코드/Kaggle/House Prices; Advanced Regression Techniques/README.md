@@ -1,85 +1,94 @@
 # House Prices
 1. 데이터 변수 조사
 
-- SalePrice - the property's sale price in dollars. This is the target variable that you're trying to predict.
-- MSSubClass: The building class
-- MSZoning: The general zoning classification
-- LotFrontage: Linear feet of street connected to property
-- LotArea: Lot size in square feet
-- Street: Type of road access
-- Alley: Type of alley access
-- LotShape: General shape of property
-- LandContour: Flatness of the property
-- Utilities: Type of utilities available
-- LotConfig: Lot configuration
-- LandSlope: Slope of property
-- Neighborhood: Physical locations within Ames city limits
-- Condition1: Proximity to main road or railroad
-- Condition2: Proximity to main road or railroad (if a second is present)
-- BldgType: Type of dwelling
-- HouseStyle: Style of dwelling
-- OverallQual: Overall material and finish quality
-- OverallCond: Overall condition rating
-- YearBuilt: Original construction date
-- YearRemodAdd: Remodel date
-- RoofStyle: Type of roof
-- RoofMatl: Roof material
-- Exterior1st: Exterior covering on house
-- Exterior2nd: Exterior covering on house (if more than one material)
-- MasVnrType: Masonry veneer type
-- MasVnrArea: Masonry veneer area in square feet
-- ExterQual: Exterior material quality
-- ExterCond: Present condition of the material on the exterior
-- Foundation: Type of foundation
-- BsmtQual: Height of the basement
-- BsmtCond: General condition of the basement
-- BsmtExposure: Walkout or garden level basement walls
-- BsmtFinType1: Quality of basement finished area
-- BsmtFinSF1: Type 1 finished square feet
-- BsmtFinType2: Quality of second finished area (if present)
-- BsmtFinSF2: Type 2 finished square feet
-- BsmtUnfSF: Unfinished square feet of basement area
-- TotalBsmtSF: Total square feet of basement area
-- Heating: Type of heating
-- HeatingQC: Heating quality and condition
-- CentralAir: Central air conditioning
-- Electrical: Electrical system
-- 1stFlrSF: First Floor square feet
-- 2ndFlrSF: Second floor square feet
-- LowQualFinSF: Low quality finished square feet (all floors)
-- GrLivArea: Above grade (ground) living area square feet
-- BsmtFullBath: Basement full bathrooms
-- BsmtHalfBath: Basement half bathrooms
-- FullBath: Full bathrooms above grade
-- HalfBath: Half baths above grade
-- Bedroom: Number of bedrooms above basement level
-- Kitchen: Number of kitchens
-- KitchenQual: Kitchen quality
-- TotRmsAbvGrd: Total rooms above grade (does not include bathrooms)
-- Functional: Home functionality rating
-- Fireplaces: Number of fireplaces
-- FireplaceQu: Fireplace quality
-- GarageType: Garage location
-- GarageYrBlt: Year garage was built
-- GarageFinish: Interior finish of the garage
-- GarageCars: Size of garage in car capacity
-- GarageArea: Size of garage in square feet
-- GarageQual: Garage quality
-- GarageCond: Garage condition
-- PavedDrive: Paved driveway
-- WoodDeckSF: Wood deck area in square feet
-- OpenPorchSF: Open porch area in square feet
-- EnclosedPorch: Enclosed porch area in square feet
-- 3SsnPorch: Three season porch area in square feet
-- ScreenPorch: Screen porch area in square feet
-- PoolArea: Pool area in square feet
-- PoolQC: Pool quality
-- Fence: Fence quality
-- MiscFeature: Miscellaneous feature not covered in other categories
-- MiscVal: $Value of miscellaneous feature
-- MoSold: Month Sold
-- YrSold: Year Sold
-- SaleType: Type of sale
-- SaleCondition: Condition of sale
+- train 인덱스 범위: 0 ~ 1459 (No. 1460)
+- test 인덱스 범위: 0 ~ 1458 (No. 1459)
+- **굵은 변수명**은 missing value 존재, value 갯수는 **괄호 안** (**train, test**)
+- int64 (35)
+  - MSSubClass: The building class
+  - LotArea: Lot size in square feet
+  - OverallQual: Overall material and finish quality
+  - OverallCond: Overall condition rating
+  - YearBuilt: Original construction date
+  - YearRemodAdd: Remodel date
+  - **BsmtFinSF1**: Type 1 finished square feet (**1458**)
+  - **BsmtFinSF2**: Type 2 finished square feet (**1458**)
+  - **BsmtUnfSF**: Unfinished square feet of basement area (**1458**)
+  - **TotalBsmtSF**: Total square feet of basement area (**1458**)
+  - 1stFlrSF: First Floor square feet
+  - 2ndFlrSF: Second floor square feet
+  - LowQualFinSF: Low quality finished square feet (all floors)
+  - GrLivArea: Above grade (ground) living area square feet
+  - **BsmtFullBath**: Basement full bathrooms (**1457**)
+  - **BsmtHalfBath**: Basement half bathrooms (**1457**)
+  - FullBath: Full bathrooms above grade
+  - HalfBath: Half baths above grade
+  - Bedroom: Number of bedrooms above basement level
+  - Kitchen: Number of kitchens
+  - TotRmsAbvGrd: Total rooms above grade (does not include bathrooms)
+  - Fireplaces: Number of fireplaces
+  - **GarageCars**: Size of garage in car capacity (**1458, **)
+  - **GarageArea**: Size of garage in square feet (**1458,** )
+  - WoodDeckSF: Wood deck area in square feet
+  - OpenPorchSF: Open porch area in square feet
+  - EnclosedPorch: Enclosed porch area in square feet
+  - 3SsnPorch: Three season porch area in square feet
+  - ScreenPorch: Screen porch area in square feet
+  - PoolArea: Pool area in square feet
+  - MiscVal: $Value of miscellaneous feature
+  - MoSold: Month Sold
+  - YrSold: Year Sold
+  - SalePrice - the property's sale price in dollars. This is the target variable that you're trying to predict.
+
+- float64 (3)
+  - **GarageYrBlt**: Year garage was built (**1379**)
+  - **MasVnrArea**: Masonry veneer area in square feet (**1452, 1444**)
+  - **LotFrontage**: Linear feet of street connected to property (**1201, 1232**)
+
+- object (43)
+  - **MSZoning**: The general zoning classification (**, 1455**)
+  - Street: Type of road access
+  - **Alley**: Type of alley access (**91, 107**)
+  - LotShape: General shape of property
+  - LandContour: Flatness of the property
+  - **Utilities: Type of utilities available** (**, 1457**)
+  - LotConfig: Lot configuration
+  - LandSlope: Slope of property
+  - Neighborhood: Physical locations within Ames city limits
+  - Condition1: Proximity to main road or railroad
+  - Condition2: Proximity to main road or railroad (if a second is present)
+  - BldgType: Type of dwelling
+  - HouseStyle: Style of dwelling
+  - RoofStyle: Type of roof
+  - RoofMatl: Roof material
+  - **Exterior1st**: Exterior covering on house (**, 1458**)
+  - **Exterior2nd**: Exterior covering on house (if more than one material) (**, 1458**)
+  - **MasVnrType**: Masonry veneer type (**1452, 1443**)
+  - ExterQual: Exterior material quality
+  - ExterCond: Present condition of the material on the exterior
+  - Foundation: Type of foundation
+  - **BsmtQual**: Height of the basement (**1423, 1415**)
+  - **BsmtCond**: General condition of the basement (**1423, 1414**)
+  - **BsmtExposure**: Walkout or garden level basement walls (**1422, 1415**)
+  - **BsmtFinType1**: Quality of basement finished area (**, 1417**)
+  - **BsmtFinType2**: Quality of second finished area (if present) (**1422, 1417**)
+  - Heating: Type of heating
+  - HeatingQC: Heating quality and condition
+  - CentralAir: Central air conditioning
+  - **Electrical**: Electrical system (**1459, **)
+  - **KitchenQual**: Kitchen quality (**, 1458**)
+  - **Functional**: Home functionality rating (**1457, **)
+  - **FireplaceQu**: Fireplace quality (**770, 729**)
+  - **GarageType**: Garage location (**1379, 1383**)
+  - **GarageFinish**: Interior finish of the garage (**1379, 1381**)
+  - **GarageQual**: Garage quality (**1379, 1381**)
+  - **GarageCond**: Garage condition (**1379, 1381**)
+  - PavedDrive: Paved driveway
+  - **PoolQC**: Pool quality (**7, 3**)
+  - **Fence**: Fence quality (**281, 290**)
+  - **MiscFeature**: Miscellaneous feature not covered in other categories (**54, 51**)
+  - **SaleType**: Type of sale (**, 1458**)
+  - SaleCondition: Condition of sale
 
 ---
+
