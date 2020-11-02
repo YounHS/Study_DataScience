@@ -1,5 +1,5 @@
 # House Prices
-1. [데이터]: https://github.com/YounHS/Study_DataScience/issues/7#issue-734244069	"데이터 변수 조사"
+1. 데이터 변수 조사
 
 - SalePrice - the property's sale price in dollars. This is the target variable that you're trying to predict.
 - MSSubClass: The building class
