@@ -155,3 +155,260 @@ train_data_robustScaled = robustScaler.transform(train_data)
 
 ------
 
+5. apply와 매개변수 lambda가 무엇인지? [#13](https://github.com/YounHS/Study_DataScience/issues/13#issue-736162649)
+
+pandas의 일반적인 함수는 DataFrame내 함수를 사용하면 되지만, 커스텀 함수를 DataFrame에 적용하려면 map(), apply(). applymap()을 사용해야한다.
+
+
+
+- map()
+
+  - DataFrame 타입이 아니라, 반드시 Series 타입에서만 사용해야함
+
+    ```
+    값(value) + 인덱스(index) = 시리즈 클래스(series)
+    ```
+
+  - Series는 Numpy에서 제공하는 1차원 배열과 유사하며 각 데이터의 의미를 표시하는 index 추가 가능
+
+  - 데이터 자체는 그냥 값의 1차원 배열
+
+  - Series 값을 하나씩 꺼내서 lambda 함수의 인자로 넘기는 커스텀 함수를 각 value 별로 실행
+
+  - example
+
+    ```python
+    import pandas as pd
+    
+    data = {'team ' : ['russia', 'saudiarabia', 'egypt', 'uruguay']
+            'against': ['saudiarabia', 'russia', 'uruguay', 'egypt'],
+            'fifa_rank': [65, 63, 31, 21]}
+    columns = ['team', 'against', 'fifa_rank']
+    
+    # index는 0, 1, 2, 3
+    df = pd.DataFrame(data, columns = columns)
+    
+    # 팀의 통산성적을 반환하는 커스텀 함수
+    def total_record(team):
+        ...
+        # calculation from Database
+        ...
+        return win_count, draw_count, lose_count, winning_rate
+    
+    # team 컬럼에 있는 데이터들에 대해 각각 통산성적에 대한 winning_rate를 구한 다음 DataFrame에 추가하고자 한다면 하단과 같이 작성한다. 선택한 컬럼 'team'은 Series 객체이므로 map 함수를 사용한다.
+    df['winning_rate'] = df['team'].map(lambda x: total_record(x)[3])
+    ```
+
+
+
+- apply()
+  - 커스텀 함수를 사용하기 위해 DataFrame에서 복수 개의 컬럼이 필요하다면 apply 함수를 사용해야함
+
+  - example(map()에서 사용한 example 이어감)
+
+    ```python
+    # 팀과 상대팀 간의 상대전적을 반환하는 커스텀 함수
+    def relative_record(team, against):
+        ...
+        # calculation from Database
+        ...
+        return win_count, draw_count, lose_count, winning_rate
+    
+    # team과 against 컬럼의 값들을 각각 인자로 넘겨, 각 팀의 상대팀 대상 상대전적에 대한 winning_rate를 구한 다음 DataFrame에 추가하고자 한다면 lambda 함수와 커스텀 함수로 넘길 인자가 2개이므로, DataFrame의 apply 함수를 사용하되, 함수를 적용할 대상이 각각의 로우에 해당하므로 axis를 1로 지정하여 넘긴다.
+    df['winning_rate'] = df.apply(lambda x: relative_record(x['team'], x['against'])[3], axis=1)
+    ```
+
+
+
+- applymap()
+  - DataFrame클래스의 함수이긴 하나, apply()처럼 각 row(axis=1)나 각 column(axis=0)별로 작동하는 함수가 아니라, 각 요소별로 작동
+  - 인자로 전달하는 커스텀함수가 Single value로부터 Single value를 반환한다는 점이 중요
+
+
+
+- index 값을 apply 함수에 적용하는 방법
+  - apply() 자체가 각각의 row를 꺼내올 때, row를 Series 객체로써 커스텀 함수를 적용하는 것이 아닌 numpy 객체로써 커스텀 함수를 적용하기 때문
+
+    ```python
+    ~.apply(lambda x: func(x.index))  # Error!
+    
+    ~.index.map(lambda x: func(x))  # run!
+    ~.apply(lambda x: func(x.name), axis=1)  # run!
+    ```
+
+------
+
+6. select_dtypes(), to_frame(), join(), columns가 무엇인지? [#14](https://github.com/YounHS/Study_DataScience/issues/14#issue-736163829)
+
+- select_dtypes()
+
+  - object형 데이터와 비object형(숫자형) 데이터를 구분하여 호출하는 함수
+
+    ```python
+    # object형 데이터 값만 호출
+    data.select_dtypes(include = 'object')
+    
+    # object형이 아닌 데이터 값만 호출
+    data.select_dtypes(exclude = 'object')
+    ```
+
+    
+
+- to_frame()
+
+  - Series 형태의 데이터를 DataFrame으로 변환
+
+  - example
+
+    ```python
+    s = pd.Seriese(['a', 'b', 'c'], name='vals')
+    s.to_frame()
+    ```
+
+    
+
+- join()
+
+  - 리스트 형태를 문자열로 변환
+
+  - example
+
+    ```python
+    time_str = '10:34:17'
+    time_str.split(':')  # ['10', '34', '17']
+    
+    ':'.join(time_str)  # '10:34:17'
+    ```
+
+    
+
+- columns
+  - 입력된 columns는 열의 레이블의 리스트를 입력 받음
+
+------
+
+7. index.values가 무엇인지? [#15](https://github.com/YounHS/Study_DataScience/issues/15#issue-736165595)
+
+- index.values
+
+  - index 객체를 실제 값 array로 변환
+
+  - (판다스 공식 사이트) 기본 데이터에 대한 참조가 필요한지 아니면 NumPy 어레이에 대한 참조가 필요한지에 따라 'Index.array' 또는 'Index.to_numpy()'를 사용하는 것을 추천
+
+  - example
+
+    ```python
+    #Index 객체를 실제 값 array로 변환 
+    df.index.values
+    ```
+
+------
+
+8. drop, remove의 차이가 무엇인지? [#16](https://github.com/YounHS/Study_DataScience/issues/16#issue-736166238)
+
+- drop
+
+  - pandas의 Series나 DataFrame 객체에서 row나 column을 삭제하기 위해 사용
+
+  - example
+
+    ```python
+    # Series
+    obj = Series(np.arange(5.), index=['a', 'b', 'c', 'd', 'e'])
+    new_obj = obj.drop('c')
+    
+    # DataFrame (columns 삭제도 가능)
+    data = DataFrame(np.arange(16).reshape((4, 4))),
+    				index=['Ohio', 'Colorado', 'Utah', 'New York'],
+        			columns=['one', 'two', 'three', 'four']
+    data.drop(['Colorado', 'Ohio'])
+    data.drop(['two', 'four'], axis=1)
+    ```
+
+    
+
+- remove
+
+  - python의 list에서 원소를 삭제하기 위해 사용
+
+  - example
+
+    ```python
+    # del -> '2' 값이 삭제
+    a = [1, 2, 3, 4, 5, 6, 7]
+    del a[1]
+    
+    # remove -> '3' 값이 삭제
+    a = [1, 2, 3, 4, 5, 6, 7]
+    a.remove(3)
+    ```
+
+------
+
+9. min(), .min() 매개변수 사용법과 np.log1p()에서 1p가 무엇인지? [#17](https://github.com/YounHS/Study_DataScience/issues/17#issue-736167135)
+
+- python의 min()
+  - 인수로 받은 자료형 내에서 최소값을 찾아서 반환하는 함수
+  - 인수는 iterable(반복 가능한) 자료형 사용
+  - min(iterable)
+    - 매개변수로 들어온 인자 내부에서 제일 작은 값 반환
+  - min(arg1, arg2)
+    - 매개변수로 들어온 iterable 인자들 중 가장 작은 인자를 반환
+
+
+
+- pandas의 min()
+
+  - 그룹화되는 데이터의 최소값
+
+  - example
+
+    ```python
+    df.groupby('data').min()
+    ```
+
+    
+
+- np.log1p()의 1p
+  - numpy에 0이 포함된 배열을 np.log()에 대입하면 **RuntimeWarning: divide by zero encountered in log** 라는 경고메시지 출력
+  - np.log1p()를 사용하여 x+1을 수행
+
+------
+
+10. KNNImputer(n_neighbors), transform()가 무엇인지? [#18](https://github.com/YounHS/Study_DataScience/issues/18#issue-736167745)
+
+- KNNImputer(n_neighbors)
+  - 결측값을 대치하는 데 널리 사용되는 방법
+  - KNN(K-최근접-이웃 알고리즘) 특성을 사용
+  - n_neighbor 매개변수의 가장 가까운 이웃에 균일한 가중치를 부여
+
+
+
+- transform()
+  - fit()은 입력한 데이터에 특정 알고리즘 또는 전처리를 적용하는 함수이며 이를 통해 transformer에 알맞는 파라미터를 생성할 수 있음
+  - fit()을 통해 생성된 파라미터를 통해서 모델을 적용시켜 데이터셋을 알맞게 변환하는 함수
+  - fit_transform()은 같은 데이터셋을 사용하여 fit과 transform을 한 번에 하는 함수
+
+------
+
+11. concat(objs)에서 objs 매개변수가 무엇인지? [#19](https://github.com/YounHS/Study_DataScience/issues/19#issue-736168175)
+
+- concat()
+
+  - example and parameter mean
+
+    ```python
+    pd.concat(objs=[a, b],  # Series, DataFrame, Panel object 
+              axis=0,  # 0: 위+아래로 합치기, 1: 왼쪽+오른쪽으로 합치기 
+              join='outer', # 'outer': 합집합(union), 'inner': 교집합(intersection) 
+              join_axes=None, # axis=1일 경우 특정 DataFrame의 index를 그대로 이용하려면 입력 
+              ignore_index=False,  # False: 기존 index 유지, True: 기존 index 무시 
+              keys=None, # 계층적 index 사용하려면 keys 튜플 입력 
+              levels=None, 
+              names=None, # index의 이름 부여하려면 names 튜플 입력 
+              verify_integrity=False, # True: index 중복 확인 
+              copy=True) # 복사
+    ```
+
+------
+
