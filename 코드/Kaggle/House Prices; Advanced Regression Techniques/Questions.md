@@ -283,6 +283,7 @@ pandas의 일반적인 함수는 DataFrame내 함수를 사용하면 되지만, 
     
 
 - columns
+  
   - 입력된 columns는 열의 레이블의 리스트를 입력 받음
 
 ------
@@ -408,6 +409,167 @@ pandas의 일반적인 함수는 DataFrame내 함수를 사용하면 되지만, 
               names=None, # index의 이름 부여하려면 names 튜플 입력 
               verify_integrity=False, # True: index 중복 확인 
               copy=True) # 복사
+    ```
+
+------
+
+12. KFold(), cross_val_score가 무엇인지? [#20](https://github.com/YounHS/Study_DataScience/issues/20#issue-737009201)
+
+- KFold()
+
+  - train_test_split()의 반복
+
+  - train_test_split()
+
+    - 데이터의 분리 비 (ex. 4:6)
+
+    - example
+
+      ```python
+      from sklearn.model_selection import train_test_split
+      train_test_split(arrays, test_size, train_size, random_state, shuffle, stratify)
+      
+      # Parameter
+      # arrays : 분할시킬 데이터를 입력 (Python list, Numpy array, Pandas dataframe 등..)
+      # test_size : 테스트 데이터셋의 비율(float)이나 갯수(int) (default = 0.25)
+      # train_size : 학습 데이터셋의 비율(float)이나 갯수(int) (default = test_size의 나머지)
+      # random_state : 데이터 분할시 셔플이 이루어지는데 이를 위한 시드값 (int나 RandomState로 입력)
+      # shuffle : 셔플여부설정 (default = True)
+      # stratify : 지정한 Data의 비율을 유지한다. 예를 들어, Label Set인 Y가 25%의 0과 75%의 1로 이루어진 Binary Set일 때, stratify=Y로 설정하면 나누어진 데이터셋들도 0과 1을 각각 25%, 75%로 유지한 채 분할된다.
+      
+      # Return
+      # X_train, X_test, Y_train, Y_test : arrays에 데이터와 레이블을 둘 다 넣었을 경우의 반환이며, 데이터와 레이블의 순서쌍은 유지된다.
+      # X_train, X_test : arrays에 레이블 없이 데이터만 넣었을 경우의 반환
+      ```
+
+      ```python
+      import numpy as np
+      from sklearn.model_selection import train_test_split
+      
+      X = [[0,1],[2,3],[4,5],[6,7],[8,9]]
+      Y = [0,1,2,3,4]
+      
+      # 데이터(X)만 넣었을 경우
+      X_train, X_test = train_test_split(X, test_size=0.2, random_state=123)
+      # X_train : [[0,1],[6,7],[8,9],[2,3]]
+      # X_test : [[4,5]]
+      
+      # 데이터(X)와 레이블(Y)을 넣었을 경우
+      X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.33, random_state=321)
+      # X_train : [[4,5],[0,1],[6,7]]
+      # Y_train : [2,0,3]
+      # X_test : [[2,3],[8,9]]
+      # Y_test : [1,4]
+      ```
+
+      
+
+  - 데이터의 수가 적은 경우 신뢰도가 떨어지며, 그렇다고 검증 데이터의 수를 증가시키면 학습 데이터의 수가 적어지는 딜레마를 해결하기 위한 검증방법
+
+  - example
+
+    ```python
+    from sklearn.model_selection import KFold
+    
+    cv = KFold(n_splits=3,random_state=1,shuffle=False)
+            # n_splits=3이면  [훈련,검증] 3개만들어준다. 
+    
+    실제 적용
+    
+    for t,v in cv.split(train):
+        train_cv=train.iloc[t]       # 훈련용
+        val_cv=train.iloc[v]         # 검증용 분리.
+        
+        train_X=train_cv.loc[:,'독립변수들']    # 훈련용 독립변수들의 데이터,
+        train_Y=train_Cv.loc[:,'종속변수만']    # 훈련용 종속변수만 있는 데이터
+         
+        val_X=val_cv.loc[:,'독립변수들']        # 검증용 독립변수들의 데이터,
+        val_Y=val_Cv.loc[:,'종속변수만']        # 검증용 종속변수만 있는 데이터,
+    ```
+
+    
+
+- cross_val_score
+
+  - 단순 교차 검증
+
+  - 파라미터는 (모델명, 훈련데이터, 타겟, cv)
+
+  - cv는 폴드(Fold) 수를 의미 (default = 3)
+
+  - example
+
+    ```python
+    from sklearn.model_selection import cross_val_score
+    
+    logreg = LogisicRegression()
+    score = cross_val_score(logreg, train, test, cv=5)
+    ```
+
+------
+
+13. residual, RidgeCV()가 무엇인지? [#21](https://github.com/YounHS/Study_DataScience/issues/21#issue-737009841)
+
+- residual (잔차)
+  - 이상치 데이터 포인트 확인
+  - 피팅 모델 적합도 평가
+  - 오차 분산의 상수 여부 확인
+  - 오차항들의 정규분포 여부 평가
+  - 절대값이 큰 잔차는 회귀 모형에 문제가 있다는 것을 의미
+  - 잔차 plot이 깔대기 모양을 보여준다면(경향성을 보인다면) 잔차의 크기는 원인변수 x에 종속되어 있음을 의미
+
+
+
+- RidgeCV() -> ***파라미터 공부 더 필요***
+
+  - 교차 검증 방법
+
+  - example
+
+    ```python
+    from sklearn.linear_model import RidgeCV
+    
+    RCV = RidgeCV(alphas=(0.1, 1.0, 10.0), *, fit_intercept=True, normalize=False, scoring=None, cv=None, gcv_mode=None, store_cv_values=False)
+    
+    # Parameter
+    # alphas : ndarray of shape (n_alphas,), default=(0.1, 1.0, 10.0)
+    # alphas : 정규화 강도. 양의 부동소수점
+    # fit_intercept : bool, default=True
+    # fit_intercept : 이 모형에 대한 절편을 계산할지 여부. false -> 절편이 계산에 사용 X
+    # normalize : bool, default=False
+    # normalize : fit_intercept가 False로 설정된 경우 이 파라미터는 무시. True이면 회귀 분석 전에 평균을 뺀 후 l2-norm로 나누면 역률 X가 정규화됩니다.
+    # scoring : string, callable, default=None
+    # cv : int, cross-validation generator or an iterable, default=None
+    # gcv_mode : {‘auto’, ‘svd’, eigen’}, default=’auto’
+    # store_cv_values : bool, default=False
+    ```
+
+------
+
+14. np.expm1()가 무엇인지? [#24](https://github.com/YounHS/Study_DataScience/issues/24#issue-737012447)
+
+- expm1()
+
+  - numpy 내장 함수
+
+  - 로그 함수 log1p()로 변환된 값을 원래 값으로 변환
+
+  - 입력 어레이 값에 대해 exp(x) -1을 계산
+
+  - np.exp() - 1 보다 더 높은 정확도를 제공
+
+  - example
+
+    ```python
+    import numpy as np
+    
+    a = np.expm1(1e-10)
+    b = np.exp(1e-10) - 1
+    
+    print('np.expm1:', a)
+    print('np.exp:', b)
+    # np.expm1: 1.00000000005e-10
+    # np.exp: 1.000000082740371e-10
     ```
 
 ------
