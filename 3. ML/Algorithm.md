@@ -25,7 +25,7 @@
 
     - 각 속성들의 값이  포함된 행렬, 그 속성들 각각의 계수가 포함된 행렬을 하단과 같이 계산 가능
 
-      ![LogLossPicture](https://github.com/YounHS/Study_DataScience/blob/master/3.ML/picture/LR_loglodds.png)
+      <br><img src="https://github.com/YounHS/Study_DataScience/blob/master/3.%20ML/picture/LR_logodds.png" width="40%"><br>
 
     - 연산은 numpy의 `np.dot()`으로 쉽게 처리 가능
 
@@ -46,7 +46,7 @@
 
   - 경사하강법(Gradient Descent)을 사용하여 모든 데이터에서 Log Loss를 최소화하는 계수 산출 가능
 
-    ![LogLossPicture](https://github.com/YounHS/Study_DataScience/blob/master/3.ML/picture/LR_logloss.png)
+    <br><img src="https://github.com/YounHS/Study_DataScience/blob/master/3.%20ML/picture/LR_logloss.png" width="40%"><br>
 
     - m: 데이터 총 개수
     - y_i: 데이터 샘플 i의 분류
