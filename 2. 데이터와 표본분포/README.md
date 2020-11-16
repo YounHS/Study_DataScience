@@ -104,7 +104,7 @@
 
     > 통계에 대한 표본분포의 변동성을 한마디로 말해주는 단일 측정 지표
 
-    <img src="https://github.com/YounHS/Study_DataScience/blob/master/2.%20%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%99%80%20%ED%91%9C%EB%B3%B8%EB%B6%84%ED%8F%AC/pic/%ED%91%9C%EC%A4%80%EC%98%A4%EC%B0%A8.png" width="40%"><br>
+    <br><img src="https://github.com/YounHS/Study_DataScience/blob/master/2.%20%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%99%80%20%ED%91%9C%EB%B3%B8%EB%B6%84%ED%8F%AC/pic/%ED%91%9C%EC%A4%80%EC%98%A4%EC%B0%A8.png" width="40%"><br>
 
     - 표본 값들의 표준편차 s와 표본크기 n을 기반으로 한 통계량을 이용하여 추정 가능함
     - 표준오차와 표본크기 사이의 관계를 때로 n 제곱근의 법칙이라고 함 (ex. 표준오차를 2배로 줄이려면 표본 크기를 4배 증가시켜야함)
