@@ -25,7 +25,7 @@
 
     - 각 속성들의 값이  포함된 행렬, 그 속성들 각각의 계수가 포함된 행렬을 하단과 같이 계산 가능
 
-    - 그림
+      ![LogLossPicture](https://github.com/YounHS/Study_DataScience/blob/master/3.ML/picture/LR_loglodds.png)
 
     - 연산은 numpy의 `np.dot()`으로 쉽게 처리 가능
 
@@ -39,10 +39,15 @@
   - numpy에서 `np.exp(-z)`로 쉽게 계산 가능
 
 - Log Loss (로그 손실)
+
   - 로지스틱 회귀가 확률을 제대로 예측하는지 확인해주는 함수
+
   - 모델의 적합성을 평가하기 위해 각 데이터 샘플의 손실을 계산 후, 그것들의 평균화 필요
+
   - 경사하강법(Gradient Descent)을 사용하여 모든 데이터에서 Log Loss를 최소화하는 계수 산출 가능
-  - 수식 그림
+
+    ![LogLossPicture](https://github.com/YounHS/Study_DataScience/blob/master/3.ML/picture/LR_logloss.png)
+
     - m: 데이터 총 개수
     - y_i: 데이터 샘플 i의 분류
     - z_i: 데이터 샘플 i의 log-odd
