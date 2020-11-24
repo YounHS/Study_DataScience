@@ -110,3 +110,95 @@
 > - KNN 수행 전 반드시 변수를 정규화해야함
 > - 명목/범주형 데이터의 경우, one-hot encoding을 사용해 더미 변수로 만들어줘야함
 > - KNN의 계산복잡성을 줄이려는 Locality Sensitive Hashing, Network based Indexer, Optimized product quantization 등이 제안됨
+
+------
+
+3. RandomForest (랜덤 포레스트)
+
+> 목표: 
+> **여러 개의 결정 트리 분류기가 배깅을 기반으로 각자의 데이터를 샘플링하여 학습 후, 최종 보팅을 통해 예측하는 것**
+
+- **Bagging(배깅)**
+
+  - Bootstrap Aggregating의 약자
+  - Voting과 달리 동일한 알고리즘으로 여러 분류기를 만든 후, 예측 결과를 보팅으로 최종 결정하는 알고리즘
+  - 배깅 진행 과정
+    1. 동일한 알고리즘을 사용하는 일정 수의 분류기 생성
+    2. 각 분류기는 bootstraping 방식으로 생성된 샘플 데이터를 학습
+    3. 최종적으로 모든 분류기의 보팅을 통해 예측 결정
+
+- 여러 개의 결정 트리를 활용한 배깅 방식의 대표적인 알고리즘
+
+- 장점
+
+  - 결정 트리의 쉽고 직관적인 장점을 그대로 지님
+  - 앙상블 알고리즘 중 비교적 빠른 수행속도
+  - 다양한 분야에서 좋은 성능 나타냄
+
+- 단점
+
+  - 하이퍼 파라미터가 많아 튜닝을 위해 많은 시간 소요
+
+- 하이퍼파라미터
+
+  - n_estimators
+
+    - 사용되는 결정 트리의 개수 지정
+    - default: 10
+    - 무작정 트리 개수를 늘리면 성능 향상 대비 오랜 시간 소요
+
+  - min_samples_split
+
+    - 노드를 분할하기 위한 최소한의 샘플 데이터 수
+
+      -> 과적합 제어에 사용. 값이 작을수록 분할 노드가 많아져 과적합 가능성 증가
+
+    - default: 2
+
+  - min_samples_leaf
+
+    - 리프노드가 되기 위한 최소한의 샘플 데이터 수
+
+      -> 과적합 제어에 사용. 값이 작을수록 과적합 가능성 증가
+
+    - default: 1
+
+    - 불균형 데이터의 경우, 특정 클래스 데이터가 극도로 적을 수 있으므로 작은 값 설정 필요
+
+  - max_features
+
+    - 최적의 분할을 위해 고려할 피처의 치대 개수
+
+    - default: auto
+
+      -> 결정 트리에서는 default가 Non인 것과 차이
+
+    - int형으로 지정 (피처 개수)
+
+    - float형으로 지정 (전체 개수의 일정 비율만큼 사용)
+
+    - `sqrt` 또는 `auto` (전체 피처 중 √(피처 개수)만큼 선정)
+
+    - `log2` (전체 피처 중 log2(전체 피처 개수)만큼 선정)
+
+  - max_depth
+
+    - 트리의 최개 깊이
+
+    - default: None
+
+      -> 완벽하게 클래스 값이 결정될 때까지 분할
+
+      -> 또는 데이터 개수가 min_samples_split보다 작아질 때까지 분할
+
+    - 깊이가 깊어지면 과적합될 수 있으므로 적절한 제어 필요
+
+  - max_leaf_nodes
+
+    - 리프노드의 최대 개수
+    - default: None
+
+> **참고**
+>
+> - from sklearn.model_selection import GridSearchCV 를 통해 best param 추출 가능
+> - scikit-learn에서는 RandomForestClassifire 클래스를 통해 랜덤 포레스트 기반의 분류 지원
